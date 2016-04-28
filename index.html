@@ -1,0 +1,119 @@
+<html ng-app="CorridaApp">
+	<head>
+		<title>Corrida</title>
+		<meta charset="utf-8">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+		<link href="css/style.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+		
+		<script src="controllers/IndexController.js"></script>
+		<script src="models/banco.js"></script>
+	</head>
+	
+	<body ng-controller="cadastrarController">
+		<h1 class="titulo">
+			<img class="logo" src="img/logo.png">
+		</h1>
+		
+		<div class="container menu">
+			<h2>Cadastrar Corredor</h2>
+	
+			<div class="row">
+				<div class="col-md-10 form-group">
+					<div class="col-md-4">
+						<span>Nome:</span>
+						<input type="text" class="form-control" placeholder="Nome do Corredor" ng-model="corredor.nome" required>
+					</div>
+					
+					<div class="col-md-4">
+						<span>Sexo:</span>
+						<select ng-model="corredor.sexo" class="form-control" required>
+							<option value="" disabled selected>Sexo</option>
+							<option>Masculino</option>
+							<option>Feminino</option>
+						</select>
+					</div>
+					
+					<div class="col-md-4">
+						<span>Equipe:</span>
+						<input type="text" class="form-control" placeholder="Equipe" ng-model="corredor.equipe" required>
+					</div>
+					
+					<div class="col-md-4">
+						<span>Cidade:</span>
+						<input type="text" class="form-control" placeholder="Cidade" ng-model="corredor.cidade" required>
+					</div>
+					
+					<div class="col-md-4">
+						<span>Idade:</span>
+						<input type="number" class="form-control" placeholder="Idade" ng-model="corredor.idade" required>
+					</div>
+					
+					<div class="col-md-4">
+						<span>Numero:</span>
+						<input type="number" class="form-control" placeholder="Numero" ng-model="corredor.numero" required>
+					</div>
+					
+					<div class="col-md-4 btn-cadastro">					
+						<button type="button" class="btn btn-success" ng-click="cadastrarCorredor(corredor);">Cadastrar</button>
+					</div>
+				</div>
+			</div>
+
+			<hr style="border-top: 2px solid rgba(8, 8, 8, 0.15);">
+			
+			<div class="dadosMenu">
+				<div class="blocoBaixo">
+					<h2>Corredores Cadastrados</h2>
+					<button type="button" class="btn btn-success btn-atualizar" ng-click="atualizarCorredores();">Atualizar</button>
+	
+					 <div class="panel panel-default">
+						<div class="panel-body">
+
+							<table class="table user-list">
+								<thead>
+									<tr>
+										<th><span>Nome</span></th>
+										<th><span>Sexo</span></th>
+										<th><span>Equipe</span></th>
+										<th><span>Cidade</span></th>
+										<th><span>Idade</span></th>
+										<th><span>Numero</span></th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="dado in corredores | filter:q | limitTo:pageSize">
+										<td>
+											{{dado.nome}}
+										</td>
+
+										<td>
+											{{dado.sexo}}
+										</td>
+
+										<td>
+											{{dado.equipe}}
+										</td>
+
+										<td>
+											{{dado.cidade}}
+										</td>
+										<td>
+											{{dado.idade}}
+										</td>
+										<td>
+											{{dado.numero}}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</div><!-- bloco baixo-->
+			</div>
+		</div>
+	</body>
+</html>

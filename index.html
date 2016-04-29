@@ -69,7 +69,7 @@
 				</div>
 			</div>
 
-			<hr style="border-top: 2px solid rgba(8, 8, 8, 0.15);">
+			<hr style="border-top: 2px solid rgba(0, 150, 136, 0.4);">
 			
 			<div class="dadosMenu">
 			
@@ -96,7 +96,7 @@
 					</div>
 				</div><!-- bloco baixo-->
 				
-				<hr style="border-top: 2px solid rgba(8, 8, 8, 0.15);">
+				<hr style="border-top: 2px solid rgba(0, 150, 136, 0.4);">
 				
 				<div class="blocoBaixo">
 					<h2>Corredores Cadastrados</h2>
@@ -125,6 +125,218 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="dado in corredores | filter:q | orderBy:'nome'">
+										<td>
+											{{dado.nome}}
+										</td>
+
+										<td>
+											{{dado.sexo}}
+										</td>
+
+										<td>
+											{{dado.equipe}}
+										</td>
+
+										<td>
+											{{dado.cidade}}
+										</td>
+										<td>
+											{{dado.idade}}
+										</td>
+										<td>
+											{{dado.numero}}
+										</td>
+										
+										<td>
+											<a href="#" class="table-link danger">
+												<span class="fa-stack">
+													<i class="fa fa-square fa-stack-2x"></i>
+													<i class="fa fa-trash-o fa-stack-1x fa-inverse" ng-click="excluirCorredor(dado.numero);"></i>
+												</span>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</div><!-- bloco baixo-->
+				
+				<hr style="border-top: 2px solid rgba(0, 150, 136, 0.4);">
+				
+				<!-- classificação geral -->
+				<div class="blocoBaixo">
+					<h2>Classificação Geral</h2>
+					 <div class="row">                         
+						<div class="col-xs-4">
+							<label for="search">Pesquisar:</label>
+							<select ng-model="sexoGeral" class="form-control" required>
+								<option value="" disabled selected>Sexo</option>
+								<option>Masculino</option>
+								<option>Feminino</option>
+							</select>
+						</div>
+					</div>
+					<br>
+					 <div class="panel panel-default">
+						<div class="panel-body">
+							<table class="table user-list">
+								<thead>
+									<tr>
+										<th><span>Nome</span></th>
+										<th><span>Sexo</span></th>
+										<th><span>Equipe</span></th>
+										<th><span>Cidade</span></th>
+										<th><span>Idade</span></th>
+										<th><span>Numero</span></th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="dado in corredores | filter:sexoGeral | orderBy:'nome'">
+										<td>
+											{{dado.nome}}
+										</td>
+
+										<td>
+											{{dado.sexo}}
+										</td>
+
+										<td>
+											{{dado.equipe}}
+										</td>
+
+										<td>
+											{{dado.cidade}}
+										</td>
+										<td>
+											{{dado.idade}}
+										</td>
+										<td>
+											{{dado.numero}}
+										</td>
+										
+										<td>
+											<a href="#" class="table-link danger">
+												<span class="fa-stack">
+													<i class="fa fa-square fa-stack-2x"></i>
+													<i class="fa fa-trash-o fa-stack-1x fa-inverse" ng-click="excluirCorredor(dado.numero);"></i>
+												</span>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</div><!-- bloco baixo-->
+
+				<hr style="border-top: 2px solid rgba(0, 150, 136, 0.4);">
+				<!-- FAIXA ETARIA -->
+				<div class="blocoBaixo">
+					<h2>Classificação por faixa etária</h2>
+					<button type="button" class="btn btn-success btn-atualizar" ng-click="atualizarCorredores();">Atualizar</button>
+					
+					 <div class="row">                         
+						<div class="col-xs-4">
+							<label for="search">Pesquisar:</label>
+							<select ng-model="sexo" class="form-control" required>
+								<option value="" disabled selected>Sexo</option>
+								<option>Masculino</option>
+								<option>Feminino</option>
+							</select>
+						</div>
+					</div>
+					<br>
+					 <div class="panel panel-default">
+						<div class="panel-body">
+							<table class="table user-list">
+								<thead>
+									<tr>
+										<th><span>Nome</span></th>
+										<th><span>Sexo</span></th>
+										<th><span>Equipe</span></th>
+										<th><span>Cidade</span></th>
+										<th><span>Idade</span></th>
+										<th><span>Numero</span></th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="dado in corredores | filter:sexo | orderBy:'nome'">
+										<td>
+											{{dado.nome}}
+										</td>
+
+										<td>
+											{{dado.sexo}}
+										</td>
+
+										<td>
+											{{dado.equipe}}
+										</td>
+
+										<td>
+											{{dado.cidade}}
+										</td>
+										<td>
+											{{dado.idade}}
+										</td>
+										<td>
+											{{dado.numero}}
+										</td>
+										
+										<td>
+											<a href="#" class="table-link danger">
+												<span class="fa-stack">
+													<i class="fa fa-square fa-stack-2x"></i>
+													<i class="fa fa-trash-o fa-stack-1x fa-inverse" ng-click="excluirCorredor(dado.numero);"></i>
+												</span>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</div><!-- bloco baixo-->
+				
+				<hr style="border-top: 2px solid rgba(0, 150, 136, 0.4);">
+				<!-- MIPIBUENSE -->
+				<div class="blocoBaixo">
+					<h2>Classificação Mipibuense</h2>
+					<button type="button" class="btn btn-success btn-atualizar" ng-click="atualizarCorredores();">Atualizar</button>
+					
+					 <div class="row">                         
+						<div class="col-xs-4">
+							<label for="search">Pesquisar:</label>
+							<select ng-model="sexoMipibuense" class="form-control" required>
+								<option value="" disabled selected>Sexo</option>
+								<option>Masculino</option>
+								<option>Feminino</option>
+							</select>
+						</div>
+					</div>
+					<br>
+					 <div class="panel panel-default">
+						<div class="panel-body">
+							<table class="table user-list">
+								<thead>
+									<tr>
+										<th><span>Nome</span></th>
+										<th><span>Sexo</span></th>
+										<th><span>Equipe</span></th>
+										<th><span>Cidade</span></th>
+										<th><span>Idade</span></th>
+										<th><span>Numero</span></th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="dado in corredores | filter:sexoMipibuense | orderBy:'nome'">
 										<td>
 											{{dado.nome}}
 										</td>

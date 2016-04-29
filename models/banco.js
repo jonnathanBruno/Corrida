@@ -15,38 +15,25 @@ angular.module('model.banco', [])
 		return db;
 	}
 
-    banco.cadastro = function(nome, sexo, equipe, cidade, idade, numero)
+    banco.cadastro = function(nome, sexo, equipe, cidade, idade, numero, local, cadeirante)
 	{
 		var db = banco.openDataBase();
 		db.transaction( function (tx) {
-			tx.executeSql('CREATE TABLE IF NOT EXISTS Corredor (nome, sexo, equipe, cidade, idade, numero)',[],
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Corredor (nome, sexo, equipe, cidade, idade, numero, local, cadeirante)',[],
 				function ()
 				{
-					tx.executeSql("INSERT INTO Corredor (nome, sexo, equipe, cidade, idade, numero) VALUES ('"+nome+"','"+sexo+"','"+equipe+"','"+cidade+"','"+idade+"','"+numero+"') ");
+					tx.executeSql("INSERT INTO Corredor (nome, sexo, equipe, cidade, idade, numero, local, cadeirante) VALUES ('"+nome+"','"+sexo+"','"+equipe+"','"+cidade+"','"+idade+"','"+numero+"','"+local+"','"+cadeirante+"') ");
 				}
 			);
 		});
 	}
-	
-	 banco.update = function(id, nome, id_usuario, nomeAntigo)
-	{
-		var db = banco.openDataBase();
-		db.transaction( function (tx) {
-			tx.executeSql('CREATE TABLE IF NOT EXISTS lista (id, nome, id_usuario)',[],
-				function ()
-				{
-					console.log(nomeAntigo);
-					tx.executeSql(" UPDATE lista SET id="+id+", nome='"+nome+"', id_usuario='"+id_usuario+"' WHERE nome='"+nomeAntigo+"'");
-				}
-			);
-		});
-	}
+
 	
 	banco.deletar = function(numero)
 	{
 		var db = banco.openDataBase();
 		db.transaction( function (tx) {
-			tx.executeSql('CREATE TABLE IF NOT EXISTS Corredor (nome, sexo, equipe, cidade, idade, numero)',[],
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Corredor (nome, sexo, equipe, cidade, idade, numero, local, cadeirante)',[],
 				function ()
 				{
 					tx.executeSql("DELETE FROM Corredor WHERE numero='"+numero+"'");
@@ -68,8 +55,19 @@ angular.module('model.banco', [])
 		});
 	}
 	
+	banco.createTableTempo = function(numero, tempo)
+	{
+		var db = banco.openDataBase();
+		db.transaction( function (tx) {
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Tempo (numero, tempo)',[],
+				function (){}
+			);
+		});
+	}
+	
 	banco.verificarNumeroCadastradoNoTempo = function(numero, callback)
 	{
+		banco.createTableTempo();
 		var db = banco.openDataBase();
 		db.transaction( function (tx) {
 			tx.executeSql("SELECT * FROM Tempo WHERE numero = '"+numero+"'", [],
@@ -109,6 +107,21 @@ angular.module('model.banco', [])
 			);
 		});
 	}
+	
+	banco.selecioneTempos = function(callback)
+	{
+		var db = banco.openDataBase();
+		db.transaction( function (tx) {
+			tx.executeSql("SELECT * FROM Tempo", [],
+				function (tx,results)
+				{
+					var row = results.rows;
+					callback(row);
+				}
+			);
+		});
+	}
+
 
     return banco;
 }]);

@@ -9,10 +9,19 @@ angular.module('CorridaApp', ['model.banco'])
 		var cidade = corredor.cidade;
 		var idade = corredor.idade;
 		var numero = corredor.numero;
-			
+		if(corredor.corredorLocal != undefined)
+			var local = corredor.corredorLocal;
+		else
+			var local = false;
+		
+		if(corredor.cadeirante != undefined)
+			var cadeirante = corredor.cadeirante;
+		else
+			var cadeirante = false;
+		
 		banco.verificarNumeroCadastrado(numero,function(resultado){
 			if(resultado.length == 0){
-				banco.cadastro(nome, sexo, equipe, cidade, idade, numero);
+				banco.cadastro(nome, sexo, equipe, cidade, idade, numero, local, cadeirante);
 				alert("cadastro realizado!");			
 				$scope.corredoresCadastrados();
 			}else{
@@ -35,6 +44,7 @@ angular.module('CorridaApp', ['model.banco'])
 		for(var i=0; i<localStorage.numeroDeCorredoresCadastrados; i++){
 			$scope.corredores[i] = $scope.objArray[i];
 		}
+		$scope.atualizarClassificacao();
 	}
 	
 	$scope.excluirCorredor = function(numero){
@@ -44,6 +54,88 @@ angular.module('CorridaApp', ['model.banco'])
 			$scope.corredoresCadastrados();
 		} 
 	}	
+	
+	$scope.atualizarClassificacao = function(){
+		banco.selecioneTempos(function(resultado){
+			$scope.tempos = resultado;
+			banco.selecione(function(resultado){
+				var tempo = $scope.tempos;
+				var corredores = resultado;
+				$scope.corredorTempo = [];
+				var aux = 0;
+				
+				for(var i=0; i<corredores.length; i++){
+					for(var u=0; u<tempo.length; u++){
+						if(corredores[i].numero == tempo[u].numero){
+							$scope.corredorTempo[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"tempo":tempo[u].tempo};
+						}								
+					}
+				}
+				
+				$scope.corredorTempoLocal = [];
+				var aux = 0;
+				for(var i=0; i<corredores.length; i++){
+					for(var u=0; u<tempo.length; u++){
+						if(corredores[i].numero == tempo[u].numero && corredores[i].local == "true"){
+							$scope.corredorTempoLocal[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"tempo":tempo[u].tempo};
+						}								
+					}
+				}
+				
+				$scope.corredorTempoFaixa = [];
+				var aux = 0;
+				for(var i=0; i<corredores.length; i++){
+					for(var u=0; u<tempo.length; u++){
+						if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=16 && corredores[i].idade<=19)){//16-19
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"16-19",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=20 && corredores[i].idade<=24)){//20-24
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"20-24",
+														"tempo":tempo[u].tempo};
+						}								
+					}
+				}
+				
+				$scope.$apply();		
+			})
+		})
+	}
 	
 }).controller('chegadaController', function($scope, banco){
 	
@@ -56,6 +148,7 @@ angular.module('CorridaApp', ['model.banco'])
 					banco.verificarNumeroCadastradoNoTempo(numero,function(resultado){
 						if(resultado.length == 0){
 							banco.inserirTempos(numero, tempo);
+							alert("Tempo salvo!");
 						}else{
 							alert("Esse numero já foi cadastrado!");		
 						}

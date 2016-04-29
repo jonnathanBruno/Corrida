@@ -42,14 +42,55 @@ angular.module('model.banco', [])
 		});
 	}
 	
-	banco.deletar = function(nome, id_usuario)
+	banco.deletar = function(numero)
 	{
 		var db = banco.openDataBase();
 		db.transaction( function (tx) {
-			tx.executeSql('CREATE TABLE IF NOT EXISTS lista (id, nome, id_usuario)',[],
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Corredor (nome, sexo, equipe, cidade, idade, numero)',[],
 				function ()
 				{
-					tx.executeSql("DELETE FROM lista WHERE nome='"+nome+"' AND id_usuario='"+id_usuario+"' ");
+					tx.executeSql("DELETE FROM Corredor WHERE numero='"+numero+"'");
+				}
+			);
+		});
+	}
+	
+	banco.inserirTempos = function(numero, tempo)
+	{
+		var db = banco.openDataBase();
+		db.transaction( function (tx) {
+			tx.executeSql('CREATE TABLE IF NOT EXISTS Tempo (numero, tempo)',[],
+				function ()
+				{
+					tx.executeSql("INSERT INTO Tempo (numero, tempo) VALUES ('"+numero+"','"+tempo+"') ");
+				}
+			);
+		});
+	}
+	
+	banco.verificarNumeroCadastradoNoTempo = function(numero, callback)
+	{
+		var db = banco.openDataBase();
+		db.transaction( function (tx) {
+			tx.executeSql("SELECT * FROM Tempo WHERE numero = '"+numero+"'", [],
+				function (tx,results)
+				{
+					var row = results.rows;
+					callback(row);
+				}
+			);
+		});
+	}
+	
+	banco.verificarNumeroCadastrado = function(numero, callback)
+	{
+		var db = banco.openDataBase();
+		db.transaction( function (tx) {
+			tx.executeSql("SELECT * FROM Corredor WHERE numero = '"+numero+"'", [],
+				function (tx,results)
+				{
+					var row = results.rows;
+					callback(row);
 				}
 			);
 		});

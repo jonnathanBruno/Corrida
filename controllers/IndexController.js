@@ -10,14 +10,14 @@ angular.module('CorridaApp', ['model.banco'])
 		var idade = corredor.idade;
 		var numero = corredor.numero;
 		if(corredor.corredorLocal != undefined)
-			var local = corredor.corredorLocal;
+			var local = "sim";
 		else
-			var local = false;
+			var local = "não";
 		
 		if(corredor.cadeirante != undefined)
-			var cadeirante = corredor.cadeirante;
+			var cadeirante = "sim";
 		else
-			var cadeirante = false;
+			var cadeirante = "não";
 		
 		banco.verificarNumeroCadastrado(numero,function(resultado){
 			if(resultado.length == 0){
@@ -47,10 +47,12 @@ angular.module('CorridaApp', ['model.banco'])
 		$scope.atualizarClassificacao();
 	}
 	
-	$scope.excluirCorredor = function(numero){
+	$scope.excluirCorredor = function(numero, indice){
 		var r = confirm("Tem certeza que quer excluir?");
 		if (r == true) {
 			banco.deletar(numero);
+			banco.deletarTempo(numero);
+			$scope.corredores.splice(indice, 1);
 			$scope.corredoresCadastrados();
 		} 
 	}	
@@ -81,11 +83,31 @@ angular.module('CorridaApp', ['model.banco'])
 					}
 				}
 				
+				$scope.corredorTempoCadeirante = [];
+				var aux = 0;
+				
+				for(var i=0; i<corredores.length; i++){
+					for(var u=0; u<tempo.length; u++){
+						if(corredores[i].numero == tempo[u].numero && corredores[i].cadeirante == "sim"){
+							$scope.corredorTempoCadeirante[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"tempo":tempo[u].tempo};
+						}								
+					}
+				}
+				
 				$scope.corredorTempoLocal = [];
 				var aux = 0;
 				for(var i=0; i<corredores.length; i++){
 					for(var u=0; u<tempo.length; u++){
-						if(corredores[i].numero == tempo[u].numero && corredores[i].local == "true"){
+						if(corredores[i].numero == tempo[u].numero && corredores[i].local == "sim"){
 							$scope.corredorTempoLocal[aux++] = {
 														"nome":corredores[i].nome, 
 														"sexo":corredores[i].sexo,
@@ -127,9 +149,167 @@ angular.module('CorridaApp', ['model.banco'])
 														"local":corredores[i].local,
 														"cadeirante":corredores[i].cadeirante,
 														"faixa":"20-24",
+														"tempo":tempo[u].tempo};	
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=25 && corredores[i].idade<=29)){//25-29
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"25-29",
 														"tempo":tempo[u].tempo};
-						}								
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=30 && corredores[i].idade<=34)){//30-34
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"30-34",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=35 && corredores[i].idade<=39)){//35-39
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"35-39",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=40 && corredores[i].idade<=44)){//40-44
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"40-44",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=45 && corredores[i].idade<=49)){//45-49
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"45-49",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=50 && corredores[i].idade<=54)){//50-54
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"50-54",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=55 && corredores[i].idade<=59)){//55-59
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"55-59",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=60 && corredores[i].idade<=64)){//60-64
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"60-64",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=65 && corredores[i].idade<=69)){//65-69
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"65-69",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=70 && corredores[i].idade<=74)){//70-74
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"70-74",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=75 && corredores[i].idade<=79)){//75-79
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"75-79",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=80 && corredores[i].idade<=84)){//80-84
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"80-84",
+														"tempo":tempo[u].tempo};
+						}else if(corredores[i].numero == tempo[u].numero && (corredores[i].idade>=85 && corredores[i].idade<=90)){//85-90
+							$scope.corredorTempoFaixa[aux++] = {
+														"nome":corredores[i].nome, 
+														"sexo":corredores[i].sexo,
+														"equipe":corredores[i].equipe,
+														"cidade":corredores[i].cidade,
+														"idade":corredores[i].idade,
+														"numero":corredores[i].numero,
+														"local":corredores[i].local,
+														"cadeirante":corredores[i].cadeirante,
+														"faixa":"85-90",
+														"tempo":tempo[u].tempo};
+						}															
+						
 					}
+					
 				}
 				
 				$scope.$apply();		

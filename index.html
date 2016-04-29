@@ -93,7 +93,7 @@
 					
 					<div class="row">
 						<div class="col-md-10 form-group">
-							<div class="col-md-4">
+							<div class="col-md-4" style="margin-left: -13px;">
 								<span>Numero:</span>
 								<input type="number" class="form-control" placeholder="Numero do corredor" ng-model="numero">
 							</div>
@@ -128,6 +128,8 @@
 										<th><span>Cidade</span></th>
 										<th><span>Idade</span></th>
 										<th><span>Numero</span></th>
+										<th><span>Corredor local</span></th>
+										<th><span>Cadeirante</span></th>
 										<th>&nbsp;</th>
 									</tr>
 								</thead>
@@ -152,14 +154,21 @@
 											{{dado.idade}}
 										</td>
 										<td>
-											{{dado.numero}}
+											<strong>{{dado.numero}}</strong>
+										</td>
+										
+										<td>
+											{{dado.local}}
+										</td>
+										<td>
+											{{dado.cadeirante}}
 										</td>
 										
 										<td>
 											<a href="#" class="table-link danger">
 												<span class="fa-stack">
 													<i class="fa fa-square fa-stack-2x"></i>
-													<i class="fa fa-trash-o fa-stack-1x fa-inverse" ng-click="excluirCorredor(dado.numero);"></i>
+													<i class="fa fa-trash-o fa-stack-1x fa-inverse" ng-click="excluirCorredor(dado.numero, corredores.indexOf(dado));"></i>
 												</span>
 											</a>
 										</td>
@@ -226,7 +235,7 @@
 										</td>
 										
 										<td>
-											{{dado.tempo}}
+											<strong>{{dado.tempo}}</strong>
 										</td>
 									</tr>
 								</tbody>
@@ -256,6 +265,19 @@
 								<option value="" selected>Faixa etária</option>
 								<option>16-19</option>
 								<option>20-24</option>
+								<option>25-29</option>
+								<option>30-34</option>
+								<option>35-39</option>
+								<option>40-44</option>
+								<option>45-49</option>
+								<option>50-54</option>
+								<option>55-59</option>
+								<option>60-64</option>
+								<option>65-69</option>
+								<option>70-74</option>
+								<option>75-79</option>
+								<option>80-84</option>
+								<option>85-90</option>
 							</select>
 						</div>
 					</div>
@@ -300,7 +322,7 @@
 										</td>
 										
 										<td>
-											{{dado.tempo}}
+											<strong>{{dado.tempo}}</strong>
 										</td>
 										
 										<td>
@@ -368,7 +390,71 @@
 										</td>
 										
 										<td>
-											{{dado.tempo}}
+											<strong>{{dado.tempo}}</strong>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				</div><!-- bloco baixo-->
+				
+								<hr style="border-top: 2px solid rgba(0, 150, 136, 0.4);">
+				<!-- CADEIRANTE -->
+				<div class="blocoBaixo">
+					<h2>Classificação Cadeirante</h2>
+					 <div class="row">                         
+						<div class="col-xs-4">
+							<label for="search">Pesquisar:</label>
+							<select ng-model="sexoCad" class="form-control" required>
+								<option value="" selected>Sexo</option>
+								<option>Masculino</option>
+								<option>Feminino</option>
+							</select>
+						</div>
+					</div>
+					<br>
+					 <div class="panel panel-default">
+						<div class="panel-body">
+							<table class="table user-list">
+								<thead>
+									<tr>
+										<th><span>Nome</span></th>
+										<th><span>Sexo</span></th>
+										<th><span>Equipe</span></th>
+										<th><span>Cidade</span></th>
+										<th><span>Idade</span></th>
+										<th><span>Numero</span></th>
+										<th><span>Tempo</span></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="dado in corredorTempoCadeirante | filter:sexoCad | orderBy:'tempo'">
+										<td>
+											{{dado.nome}}
+										</td>
+
+										<td>
+											{{dado.sexo}}
+										</td>
+
+										<td>
+											{{dado.equipe}}
+										</td>
+
+										<td>
+											{{dado.cidade}}
+										</td>
+										<td>
+											{{dado.idade}}
+										</td>
+										<td>
+											{{dado.numero}}
+										</td>
+										
+										<td>
+											<strong>{{dado.tempo}}</strong>
 										</td>
 									</tr>
 								</tbody>
